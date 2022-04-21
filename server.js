@@ -71,9 +71,20 @@ const WRITESTREAM = fs.createWriteStream('FILE', { flags: 'a' })
 app.use(morgan('combined', { stream: WRITESTREAM }))
 }
 
-//if (args.debug == true) {
+if (args.debug == true) {
+    app.get('/app/log/access', (req, res) => {	
+        try {
+            const stmt = db.prepare('SELECT * FROM accesslog').all()
+            res.status(200).json(stmt)
+        } catch {
+            console.error(e)
+        }
+    });
 
-//}
+    app.get('/app/error', (req, res) => {
+        throw new Error('Error test successful.');
+    });
+}
 function coinFlip() {
     var x = Math.round(Math.random());
     if (x < 1) {return "heads";} else {return "tails";}
