@@ -58,7 +58,7 @@ app.use( (req, res, next) => {
         useragent: req.headers['user-agent']
     }
 
-    const stmt = logdb.prepare('INSERT INTO accesslog (remoteaddr, remoteuser, time, method, url, protocol, httpversion, status, referer, useragent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+    const stmt = db.prepare('INSERT INTO accesslog (remoteaddr, remoteuser, time, method, url, protocol, httpversion, status, referer, useragent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
     const info = stmt.run(logdata.remoteaddr, logdata.remoteuser, logdata.time, logdata.method, logdata.url, logdata.protocol, logdata.httpversion, logdata.status, logdata.referer, logdata.useragent)
     next()
 
@@ -85,6 +85,16 @@ if (args.debug == true) {
         throw new Error('Error test successful.');
     });
 }
+
+app.get("/app/", (req, res, next) => {
+    // Respond with status 200
+    res.statusCode = 200;
+    // Respond with status message "OK"
+    res.statusMessage = 'OK';
+    res.writeHead( res.statusCode, { 'Content-Type' : 'text/plain' });
+    res.end(res.statusCode+ ' ' +res.statusMessage)
+});
+
 function coinFlip() {
     var x = Math.round(Math.random());
     if (x < 1) {return "heads";} else {return "tails";}
@@ -121,14 +131,7 @@ function coinFlip() {
     }
   }
 
-  app.get("/app/", (req, res, next) => {
-        // Respond with status 200
-        res.statusCode = 200;
-        // Respond with status message "OK"
-        res.statusMessage = 'OK';
-        res.writeHead( res.statusCode, { 'Content-Type' : 'text/plain' });
-        res.end(res.statusCode+ ' ' +res.statusMessage)
-});
+
 
 app.use(function(req, res){
     res.status(404).send('404 NOT FOUND')
