@@ -1,16 +1,11 @@
 const express = require('express')
 const app = express()
 
-const db = require('./log.db')
+const db = require('./database.js')
 
 const morgan = require('morgan')
 const errorhandler = require('errorhandler')
 const fs = require('fs')
-
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-
 
 const args = require("minimist")(process.argv.slice(2))
 
@@ -40,6 +35,10 @@ if (args.help || args.h) {
     process.exit(0)
 }
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+
 const server = app.listen(port, () => {
     console.log('App listening on port %PORT%'.replace('%PORT%',port))
 });
@@ -66,9 +65,9 @@ app.use( (req, res, next) => {
 
 if (args.log == true) {
 // Create a write stream to append (flags: 'a') to a file
-const WRITESTREAM = fs.createWriteStream('FILE', { flags: 'a' })
+const WRITESTREAM = fs.createWriteStream('access.log', { flags: 'a' })
 // Set up the access logging middleware
-app.use(morgan('combined', { stream: WRITESTREAM }))
+app.use(morgan('accesslog', { stream: WRITESTREAM }))
 }
 
 if (args.debug == true) {
