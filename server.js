@@ -151,6 +151,7 @@ app.use(function(req, res){
         res.status(200).json(flipACoin("heads"))
     });
 
+    
     app.get('/app/flip/call/tails', (req, res) => {
         res.status(200).json(flipACoin("tails"))
     });
