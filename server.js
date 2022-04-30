@@ -33,6 +33,7 @@ if (args.help || args.h) {
     console.log(help)
     process.exit(0)
 }
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
