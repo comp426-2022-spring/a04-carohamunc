@@ -131,6 +131,7 @@ function coinFlip() {
 app.use(function(req, res){
     res.status(404).send('404 NOT FOUND')
 });
+
 //from a03
     app.get('/app/flip/', (req, res) => {
         const flip = coinFlip()
