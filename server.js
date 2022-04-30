@@ -37,7 +37,6 @@ if (args.help || args.h) {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
 const server = app.listen(port, () => {
     console.log('App listening on port %PORT%'.replace('%PORT%',port))
 });
@@ -129,8 +128,6 @@ function coinFlip() {
     }
   }
 
-
-
 app.use(function(req, res){
     res.status(404).send('404 NOT FOUND')
 });
@@ -151,8 +148,6 @@ app.use(function(req, res){
         res.status(200).json(flipACoin("heads"))
     });
 
-    
     app.get('/app/flip/call/tails', (req, res) => {
         res.status(200).json(flipACoin("tails"))
     });
-
